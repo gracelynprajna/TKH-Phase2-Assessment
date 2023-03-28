@@ -10,7 +10,7 @@ function App () {
       {data &&
         data.results.map((element) => (
           <div>
-            <div>{element.name}</div>
+            <h1>{element.name}</h1>
             <a href={element.url}> {element.url}</a>
           </div>
         ))}
