@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Getting all active users
 router.get("/", async function (request, response) {
-    // const activeUsers = parseInt(request.params.activeUsers);
+
     try {
       const getActive = await prisma.user.findMany({
        include: {
@@ -167,5 +167,4 @@ router.put("/:id", async (request, response) => {
     }
   });
   
-
 export default router;
