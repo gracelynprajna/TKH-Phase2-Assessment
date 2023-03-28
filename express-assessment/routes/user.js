@@ -40,32 +40,7 @@ router.get("/admins", async function (request, response) {
       console.log(error);
     }
   });
-  
 
-// //getting all the users
-// router.get("/", async (request, response) => {
-//     try {
-//       const allUsers = await prisma.user.findMany
-//       if (allUsers) {
-//         response.status(200).json({
-//           success: true,
-//           message: "all users fetched!",
-//           user: allUsers
-//         })
-//       } else {
-//         response.status(400).json({
-//           success: false,
-//           message: "Something went wrong!"
-//         })
-//       }
-//     } catch (error) {
-//       console.log(error)
-//       response.status(400).json({
-//         success: false,
-//         message: "could not get any user data!"
-//       })
-//     }
-//   })
 
 //deleting users
 router.delete("/:id", async (request, response) => {
