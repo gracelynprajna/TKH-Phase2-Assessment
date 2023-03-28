@@ -11,7 +11,6 @@ function App () {
         data.results.map((element) => (
           <div>
             <h1>{element.name}</h1>
-            <a href={element.url}> {element.url}</a>
           </div>
         ))}
     </div>
