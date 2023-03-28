@@ -1,20 +1,18 @@
 import express from "express";
-
+import prisma from "../db/index.js"
 const router = express.Router();
 
 // Create the routes here
 
 // Getting all active users
 router.get("/", async function (request, response) {
-    const activeUsers = parseInt(request.params.activeUsers);
+    // const activeUsers = parseInt(request.params.activeUsers);
     try {
-  
       const getActive = await prisma.user.findMany({
        include: {
         isActive: true
         }
       });
-  
       response.status(200).json({
         sucess: true,
         getActive,
@@ -24,17 +22,16 @@ router.get("/", async function (request, response) {
     }
   });
 
+
   // Getting all admin users
 router.get("/admins", async function (request, response) {
     const adminUsers = parseInt(request.params.adminUsers);
     try {
-  
       const getAdmin = await prisma.user.findMany({
        include: {
         isAdmin: true
         }
       });
-  
       response.status(200).json({
         sucess: true,
         getAdmin,
@@ -71,9 +68,9 @@ router.get("/admins", async function (request, response) {
 //   })
 
 //deleting users
-router.delete("/1", async (request, response) => {
+router.delete("/:id", async (request, response) => {
     try {
-      const deleteUser = await prisma.user.deleteMany({
+      const deleteUser = await prisma.user.delete({
         where: {
           firstName: request.params.firstName,
           lastName: request.params.lastName
@@ -111,7 +108,7 @@ router.post("/", async (request, response) => {
         data: {
           firstName: request.body.firstName,
           lastName: request.body.lastName,
-          userId: 1,
+        //   userId: 1,
         },
       });
   
@@ -119,7 +116,7 @@ router.post("/", async (request, response) => {
         response.status(201).json({
           success: true,
           message: "New user created!",
-          user: newUser,
+          newUser,
         });
       } else {
         response.status(400).json({
@@ -137,28 +134,24 @@ router.post("/", async (request, response) => {
   })
 
 
-
 //updating a user
-router.put("/1", async (request, response) => {
+router.put("/:id", async (request, response) => {
     try {
       const updateUser = await prisma.user.updateMany({
         where: {
-          firstName: request.user.firstName,
-        //   id: parseInt(request.params.userId)
-        }
+          id: parseInt(request.params.userId),
+        },
+        data:{
+            firstName: request.body.firstName,
+            lastName: request.body.lastName,
+        },
       })
-  
       if (updateUser) {
-        const userList = await prisma.user.findMany({
-          where: {
-            firstName: request.user.firstName,
-          }
-        })
         response.status(200).json({
           success: true,
           message: "User information was updated",
           userList
-        })
+        });
       } else {
         response.status(400).json({
           success: false,
@@ -170,9 +163,9 @@ router.put("/1", async (request, response) => {
       response.status(400).json({
         success: false,
         message: "Something went wrong"
-      })
+      });
     }
-  })
+  });
   
 
 export default router;
